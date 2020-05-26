@@ -1,0 +1,36 @@
+<div *ngIf="tooSmall">
+  <mdb-icon fas icon="exclamation-circle" class="text-danger" size="2x"></mdb-icon>
+  <span> Size too small for component.</span>
+</div>
+<div *ngIf="!atEnd">
+  <mdb-icon fas icon="exclamation-circle" class="text-danger" size="2x"></mdb-icon>
+  <span> Component not at end of page.</span>
+</div>
+<div *ngIf="!tooSmall && atEnd" class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col">
+      <table>
+        <tr>
+          <th>ACCOUNT</th>
+          <th>START DATE</th>
+          <th class="text-right">VALUE</th>
+          <th class="text-right" *ngIf="( widget.cols > 6 )">% OF TOTAL</th>
+          <th class="text-right" *ngIf="( widget.cols > 8 )">SELECTED<br>PERIOD (%)</th>
+          <th class="text-right" *ngIf="( widget.cols > 9 )">YEAR TO<br>DATE (%)</th>
+          <th class="text-right" *ngIf="( widget.cols > 10 )">LAST<br>YEAR (%)</th>
+          <th class="text-right" *ngIf="( widget.cols > 11 )">SINCE START<br>DATE (%)</th>
+        </tr>
+        <tr *ngFor="let row of dataTable">
+          <td class="account">{{row.account}}</td>
+          <td class="startDate">{{row.startDate}}</td>
+          <td class="value">{{row.value}}</td>
+          <td class="percentage" *ngIf="( widget.cols > 6 )">{{row.percentageOfTotal}}</td>
+          <td class="percentage" *ngIf="( widget.cols > 8 )">{{row.selectedPeriodPercentage}}</td>
+          <td class="percentage" *ngIf="( widget.cols > 9 )">{{row.yearToDatePercentage}}</td>
+          <td class="percentage" *ngIf="( widget.cols > 10 )">{{row.lastYearPercentage}}</td>
+          <td class="percentage" *ngIf="( widget.cols > 11 )">{{row.sinceStartDatePercentage}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

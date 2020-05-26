@@ -23,6 +23,9 @@ import { GridComponent } from './grid/grid.component';
 import { DragGridComponent } from './drag-grid/drag-grid.component';
 import { GraphTableComponent } from './graph-table/graph-table.component';
 import { DynamicModule } from 'ng-dynamic-component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { AccountDetailComponent } from './account-detail/account-detail.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { DynamicModule } from 'ng-dynamic-component';
     GridComponent,
     DragGridComponent,
     GraphTableComponent,
+    HeaderComponent,
+    FooterComponent,
+    AccountDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +53,7 @@ import { DynamicModule } from 'ng-dynamic-component';
     MDBBootstrapModule.forRoot(),
     GridsterModule,
     ColorPickerModule,
-    DynamicModule.withComponents([GraphTableComponent]),
+    DynamicModule.withComponents([GraphTableComponent, HeaderComponent, FooterComponent, AccountDetailComponent]),
 //    DragDropModule
   ],
   providers: [],

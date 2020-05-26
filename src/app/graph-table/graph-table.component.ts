@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, OnDestroy } from '@angular/core';
 import { GridsterItem } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './graph-table.component.html',
   styleUrls: ['./graph-table.component.scss']
 })
-export class GraphTableComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GraphTableComponent implements OnInit, OnDestroy {
   vertical: boolean;
   selectOrientation: boolean;
   chartFirst: boolean;
@@ -16,10 +16,12 @@ export class GraphTableComponent implements OnInit, OnDestroy, AfterViewInit {
   widget: GridsterItem;
   @Input()
   resizeEvent : EventEmitter<any>;
+  @Input()
+  portraitOrientation: boolean;
   resizeSub: Subscription;
   dataTable = [];
 
-  constructor( private element: ElementRef) {
+  constructor() {
     this.selectOrientation = false;
     this.vertical = true;
     this.chartFirst = true;
@@ -93,8 +95,4 @@ export class GraphTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resizeSub.unsubscribe();
   }
 
-  ngAfterViewInit() {
-    console.log(this.element.nativeElement.offsetWidth);
-    console.log(this.element.nativeElement.offsetHeight);
-  }
 }

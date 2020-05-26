@@ -1,5 +1,8 @@
 import {Component, OnInit, EventEmitter } from '@angular/core';
 import { GraphTableComponent } from '../graph-table/graph-table.component';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
+import { AccountDetailComponent } from '../account-detail/account-detail.component';
 
 import {
   DisplayGrid,
@@ -38,10 +41,6 @@ export class DragGridComponent implements OnInit {
     console.info('eventStart', item, itemComponent, event);
   }
 
-  static eventStop(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent) {
-    console.info('eventStop', item, itemComponent, event);
-  }
-
   static overlapEvent(source: GridsterItem, target: GridsterItem, grid: GridsterComponent) {
     console.log('overlap', source, target, grid);
   }
@@ -61,7 +60,7 @@ export class DragGridComponent implements OnInit {
         ignoreContentClass: 'gridster-item-content',
         ignoreContent: false,
         dragHandleClass: 'drag-handler',
-        stop: DragGridComponent.eventStop,
+        stop: (item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent) => {this.resizeEvent.emit(item);},
         start: DragGridComponent.eventStart,
         dropOverItems: false,
         dropOverItemsCallback: DragGridComponent.overlapEvent,
@@ -88,18 +87,19 @@ export class DragGridComponent implements OnInit {
       defaultItemRows: 10
     };
     this.components = [
-      {cols: 4, rows: 8, y: 0, x: 0, dragEnabled: true, minItemRows: 5, minItemCols: 4, label: 'Initial Rows = 8, Initial Columns = 4\nMinimum Rows = 5, Minimum Columns = 4', delete: true},
-      {cols: 8, rows: 8, y: 0, x: 0, dragEnabled: true, minItemRows: 5, minItemCols: 8, label: 'Initial Rows = 8, Initial Columns = 8\nMinimum Rows = 5, Minimum Columns = 8', delete: true},
-      {cols: 4, rows: 10, y: 0, x: 0, dragEnabled: true, maxItemRows: 10, maxItemCols: 6, label: 'Initial Rows = 10, Initial Columns = 4\nMaximum rows = 10, Maximum Columns = 6', delete: true},
-      {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: true, resizeEnabled: true, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Enabled', delete: true},
-      {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true},
-      {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true},
-      {cols: 8, rows: 11, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent},
+      {cols: 4, rows: 8, y: 0, x: 0, dragEnabled: true, minItemRows: 5, minItemCols: 4, label: 'Initial Rows = 8, Initial Columns = 4\nMinimum Rows = 5, Minimum Columns = 4', delete: true, edit: true},
+      {cols: 8, rows: 8, y: 0, x: 0, dragEnabled: true, minItemRows: 5, minItemCols: 8, label: 'Initial Rows = 8, Initial Columns = 8\nMinimum Rows = 5, Minimum Columns = 8', delete: true, edit: true},
+      {cols: 4, rows: 10, y: 0, x: 0, dragEnabled: true, maxItemRows: 10, maxItemCols: 6, label: 'Initial Rows = 10, Initial Columns = 4\nMaximum rows = 10, Maximum Columns = 6', delete: true, edit: true},
+      {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: true, resizeEnabled: true, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Enabled', delete: true, edit: true},
+      {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true, edit: true},
+      {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true, edit: true},
+      {cols: 8, rows: 11, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table Component', type: GraphTableComponent, edit: true},
+      {cols: 12, rows: 10, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Component', type: AccountDetailComponent, edit: true},
     ];
     this.dashboard = [
-      {cols: 12, rows: 4, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false},
-      {cols: 12, rows: 3, y: 27, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false},
-      {cols: 8, rows: 11, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent},
+      {cols: 12, rows: 4, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderComponent, edit: true},
+      {cols: 12, rows: 3, y: 27, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false, type: FooterComponent, edit: false},
+      {cols: 8, rows: 11, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent, edit: true},
     ];
     this.customComponent = {
       x: 0,

@@ -30,13 +30,21 @@ td {
   height: 25px;
 }
 
-.category {
+.account {
   min-width: 240px;
   font-family: Arial;
   font-size: 12px;
   letter-spacing: 9;
   line-height: 14px;
   width: 25%;
+}
+.startDate {
+  min-width: 80px;
+  font-family: Arial;
+  font-size: 12px;
+  letter-spacing: 9;
+  line-height: 14px;
+  width: 10%;
 }
 
 .value {
@@ -51,17 +59,6 @@ td {
 }
 
 .percentage {
-  min-width: 70px;
-  text-align: right;
-  font-family: Arial;
-  font-size: 12px;
-  letter-spacing: 9;
-  line-height: 14px;
-  padding-right: 5px;
-  width: 10%;
-}
-
-.performance {
   min-width: 70px;
   text-align: right;
   font-family: Arial;
