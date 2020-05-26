@@ -1,4 +1,5 @@
 import {Component, OnInit, EventEmitter } from '@angular/core';
+import { GraphTableComponent } from '../graph-table/graph-table.component';
 
 import {
   DisplayGrid,
@@ -93,12 +94,12 @@ export class DragGridComponent implements OnInit {
       {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: true, resizeEnabled: true, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Enabled', delete: true},
       {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true},
       {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true},
-      {cols: 8, rows: 11, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: "app-graph-table"},
+      {cols: 8, rows: 11, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent},
     ];
     this.dashboard = [
       {cols: 12, rows: 4, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false},
       {cols: 12, rows: 3, y: 27, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false},
-      {cols: 8, rows: 11, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: "app-graph-table"},
+      {cols: 8, rows: 11, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent},
     ];
     this.customComponent = {
       x: 0,

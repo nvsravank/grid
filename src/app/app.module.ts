@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridComponent } from './grid/grid.component';
 import { DragGridComponent } from './drag-grid/drag-grid.component';
 import { GraphTableComponent } from './graph-table/graph-table.component';
+import { DynamicModule } from 'ng-dynamic-component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { GraphTableComponent } from './graph-table/graph-table.component';
     MDBBootstrapModule.forRoot(),
     GridsterModule,
     ColorPickerModule,
+    DynamicModule.withComponents([GraphTableComponent]),
 //    DragDropModule
   ],
   providers: [],

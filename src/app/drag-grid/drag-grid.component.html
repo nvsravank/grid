@@ -220,9 +220,9 @@
                 <textarea matInput rows="4" placeholder="Label will be:" class="font-weight-bold blue-text">{{item.label}}</textarea>
               </div>
               <div *ngIf="item.hasContent" class="gridster-item-content col">
-                <div *ngIf="item.type === 'app-graph-table'">
-                  <app-graph-table [widget]="item" [resizeEvent]="resizeEvent"></app-graph-table>
-                </div>
+                <ndc-dynamic [ndcDynamicComponent]="item.type"
+                  [ndcDynamicInputs]="{widget: item, resizeEvent: resizeEvent}">
+                </ndc-dynamic>
               </div>
             </div>
           </div>
