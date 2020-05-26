@@ -1,0 +1,25 @@
+@import '~@angular/material/theming';
+.landscapeGrid {
+  min-height: 850px;
+  max-height: 850px;
+  max-width: 1100px;
+  min-width: 1100px;
+}
+.portraitGrid {
+  min-width: 850px;
+  max-width: 850px;
+  max-height: 1100px;
+  min-height: 1100px;
+}
+
+.deleteButton {
+  float: right;
+}
+
+.addButton {
+  float: left;
+}
+
+.gridsterstyles {
+  background-color: #01579b;
+}

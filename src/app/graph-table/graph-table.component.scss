@@ -1,0 +1,94 @@
+@import '~@angular/material/theming';
+
+th {
+  font-family: Arial;
+  box-sizing: border-box;
+  height: 31px;
+  border: 1px solid #FFFFFF;
+  background-color: #07518F;
+  color: #FEFEFE;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 11px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+td {
+  border-top: 1px solid #E1E1E1;
+  border-bottom: 1px solid #E1E1E1;
+  height: 28px;
+  vertical-align: middle;
+}
+
+.pie {
+  height: 180px !important;
+}
+
+.orientation {
+  height: 25px;
+}
+
+.category {
+  min-width: 240px;
+  font-family: Arial;
+  font-size: 12px;
+  letter-spacing: 9;
+  line-height: 14px;
+}
+
+.value {
+  min-width: 120px;
+  text-align: right;
+  font-family: Arial;
+  font-size: 12px;
+  letter-spacing: 9;
+  line-height: 14px;
+  padding-right: 5px;
+}
+
+.percentage {
+  min-width: 70px;
+  text-align: right;
+  font-family: Arial;
+  font-size: 12px;
+  letter-spacing: 9;
+  line-height: 14px;
+  padding-right: 5px;
+}
+
+.performance {
+  min-width: 70px;
+  text-align: right;
+  font-family: Arial;
+  font-size: 12px;
+  letter-spacing: 9;
+  line-height: 14px;
+  padding-right: 5px;
+}
+
+.total {
+  font-weight: bold;
+  border-bottom: 0px;
+  font-size: 12px;
+  border-top: 2px solid #07518F;
+}
+
+.title {
+  border-bottom: 1px solid #DCDDDE;
+  border-left: 6px solid #DCDDDE;
+  color: #816C46;
+  font-weight: bolder;
+  font-stretch: wider;
+}
+
+.date {
+  border-bottom: 1px solid #DCDDDE;
+}
+
+.color-icon {
+  min-width: 20px;
+  height: 15px;
+  border: none;
+}

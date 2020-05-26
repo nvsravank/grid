@@ -1,0 +1,233 @@
+<div class="container-fluid gridOptions">
+  <div class="row unique-color-dark white-text">
+    <div class="col">
+      These options below set the grid up.
+    </div>
+  </div>
+  <div class="row options-header">
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+          <input matInput [(ngModel)]="options.margin" type="number" min=1 placeholder="Margin"
+            (ngModelChange)="changedOptions()">
+        </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <button [style.color]="gridBackgroundColor"
+        [cpPosition]="'bottom'"
+        [cpPositionOffset]="'50%'"
+        [cpPositionRelativeToArrow]="true"
+        [(colorPicker)]="gridBackgroundColor">Change color
+        <mat-icon>palette</mat-icon>
+      </button>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.minCols" type="number" min=1 placeholder="Min Grid Cols"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.minRows" type="number" min=1 placeholder="Min Grid Rows"
+         (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="headerHeight" type="number" min=3 placeholder="Header # of Rows"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="footerHeight" type="number" min=2 placeholder="Footer # of Rows"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-checkbox [(ngModel)]="options.outerMargin" (ngModelChange)="changedOptions()">
+        Outer Margin Displayed?
+      </mat-checkbox>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-checkbox [(ngModel)]="options.swap" (ngModelChange)="changedOptions()">
+        Item Swap Enabled
+      </mat-checkbox>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-checkbox [(ngModel)]="portraitOrientation" (ngModelChange)="changeOrientation()">
+        Portrait (Uncheck for Landscape)
+      </mat-checkbox>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-checkbox [(ngModel)]="options.pushItems" (ngModelChange)="changedOptions()">
+        Push Items Enabled
+      </mat-checkbox>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.maxItemCols" type="number" min=1 placeholder="Max Item Cols"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.minItemCols" type="number" min=1 placeholder="Min Item Cols"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.maxItemRows" type="number" min=1 placeholder="Max Item Rows"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.minItemRows" type="number" min=1 placeholder="Min Item Rows"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="gridScale" type="number" min=75 max=125 placeholder="Grid Size Scale"
+          (ngModelChange)="changeScale()">
+      </mat-form-field>
+    </div>
+    <!--
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.maxItemArea" type="number" min=1 placeholder="Max Item Area"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.minItemArea" type="number" min=1 placeholder="Min Item Area"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.defaultItemRows" type="number" min=1 placeholder="Default Item Rows"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    <div class="col col-xl-2 col-md-3 col-xs-4">
+      <mat-form-field>
+        <input matInput [(ngModel)]="options.defaultItemCols" type="number" min=1 placeholder="Default Item Cols"
+          (blur)="changedOptions()">
+      </mat-form-field>
+    </div>
+    -->
+  </div>
+  <div class="row unique-color-dark">
+    <div class="col">
+      &nbsp;
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col">
+      <div class="border border-danger rounded-lg">
+        <mat-icon color="warn">help</mat-icon><br>
+        <span>If you have changed the "Min Item Cols", or "Min Item Rows" or "Max Item Rows" or "Max Item Cols" in the options above, then trying to add the following preconfigured components might not work if the initial rows and columns do not fit in the grid options. 
+          <br>No error message is given.
+          <br>Use the custom component configurator at the bottom with appropriate settings to test.
+        </span>
+      </div>
+      <div *ngFor="let item of components" class="py-1 rounded-pill border border-primary my-1">
+        <div class="button-holder">
+          <div>
+            <button mat-mini-fab (mousedown)="addDefinedItem($event, item)"
+                    (touchstart)="addDefinedItem($event, item)"
+                    class="mr-2 ml-1">
+              <mat-icon>add</mat-icon>
+            </button>
+            <label>{{item.label}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid  rounded-lg mt-5">
+        <div class="row">
+          <div class="col p-1 rounded-pill border border-primary m-1">
+            <button mat-mini-fab (click)="addItem()" class="mr-2 ml-0 p-0">
+              <mat-icon>add</mat-icon>
+            </button>
+            <label>Add a custom component with the below settings:</label>
+          </div>
+        </div>
+        <div class="row">
+          <mat-form-field class="col-4">
+            <input matInput [(ngModel)]="customComponent.rows" type="number" min=1 (blur)="changedSettings()" placeholder="Initial Rows">
+          </mat-form-field>  
+          <mat-form-field class="col-4">
+            <input matInput [(ngModel)]="customComponent.cols" type="number" min=1 (blur)="changedSettings()" placeholder="Initial Columns">
+          </mat-form-field>  
+        </div>
+        <div class="row">
+          <mat-form-field class="col-4">
+            <input matInput [(ngModel)]="customComponent.minItemRows" type="number" min=1 (blur)="changedSettings()" placeholder="Min Item Rows">
+          </mat-form-field>  
+          <mat-form-field class="col-4">
+            <input matInput [(ngModel)]="customComponent.minItemCols" type="number" min=1 (blur)="changedSettings()" placeholder="Min Item Columns">
+          </mat-form-field>  
+        </div>
+        <div class="row">
+          <mat-form-field class="col-4">
+            <input matInput [(ngModel)]="customComponent.maxItemRows" type="number" min=1 (blur)="changedSettings()" placeholder="Max Item Rows">
+          </mat-form-field>  
+          <mat-form-field class="col-4">
+            <input matInput [(ngModel)]="customComponent.maxItemCols" type="number" min=1 (blur)="changedSettings()" placeholder="Max Item Columns">
+          </mat-form-field>  
+        </div>
+        <div class="row">
+          <mat-checkbox [(ngModel)]="customComponent.dragEnabled" (ngModelChange)="changedSettings()" class="col-4">
+            Draggable
+          </mat-checkbox>
+          <mat-checkbox [(ngModel)]="customComponent.resizeEnabled" (ngModelChange)="changedSettings()" class="col-4">
+            Resizable
+          </mat-checkbox>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <textarea matInput [ngModel]="customComponent.label" rows="10" placeholder="Label will be:" class="font-weight-bold blue-text">
+            </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <!--[className]="portraitOrientation ? 'portraitGrid' : 'landscapeGrid'" -->
+    <div class="col-auto mr-2" [style.min-width.px]="gridWidth" [style.min-height.px]="gridHeight" [style.max-width.px]="gridWidth" [style.max-height.px]="gridHeight">
+      <gridster [options]="options" [ngStyle]="{'background-color': gridBackgroundColor}" class="gridsterstyles">
+        <gridster-item [item]="item" *ngFor="let item of dashboard">
+          <div class="container-fluid">
+            <div class="d-flex justify-content-between row" style="position: relative">
+              <div class="col-10">&nbsp;</div>
+              <div class="item-buttons col-auto" style="z-index: 2; position: absolute; right: 0px;">
+                <button mat-icon-button mat-raised-button class="drag-handler" *ngIf="item.dragEnabled">
+                  <mat-icon>open_with</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="item.delete" (mousedown)="removeItem($event, item)"
+                  (touchstart)="removeItem($event, item)" class="deleteButton">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="!item.hasContent" class="gridster-item-content col">
+                <textarea matInput rows="4" placeholder="Label will be:" class="font-weight-bold blue-text">{{item.label}}</textarea>
+              </div>
+              <div *ngIf="item.hasContent" class="gridster-item-content col">
+                <div *ngIf="item.type === 'app-graph-table'">
+                  <app-graph-table [widget]="item" [resizeEvent]="resizeEvent"></app-graph-table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </gridster-item>
+      </gridster>
+    </div>
+  </div>
+</div>
