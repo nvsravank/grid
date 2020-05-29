@@ -50,7 +50,7 @@ export class GraphTableComponent implements OnInit, OnDestroy {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
       if (widget === this.widget) { // or check id , type or whatever you have there
         // resize your widget, chart, map , etc.
-        console.log("Old Size:\nRows: " + widget.rows + "\nColumns: " + widget.cols);
+        // console.log("Old Size:\nRows: " + widget.rows + "\nColumns: " + widget.cols);
         setTimeout(this.sizing.bind(this), 1000);
       }
     });
@@ -58,7 +58,7 @@ export class GraphTableComponent implements OnInit, OnDestroy {
   }
 
   sizing() {
-    console.log("New Size:\nRows: " + this.widget.rows + "\nColumns: " + this.widget.cols);
+    // console.log("New Size:\nRows: " + this.widget.rows + "\nColumns: " + this.widget.cols);
     if (this.widget.cols < 6) {
       // Cannot be vertical or horizontal.
       this.tooSmall = true;

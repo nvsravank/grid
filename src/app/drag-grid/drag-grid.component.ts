@@ -3,6 +3,7 @@ import { GraphTableComponent } from '../graph-table/graph-table.component';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { AccountDetailComponent } from '../account-detail/account-detail.component';
+import { HoldingsComponent } from '../holdings/holdings.component';
 
 import {
   DisplayGrid,
@@ -11,7 +12,8 @@ import {
   GridsterConfig,
   GridsterItem,
   GridsterItemComponentInterface,
-  GridType
+  GridType,
+  CompactType
 } from 'angular-gridster2';
 
 interface Safe extends GridsterConfig {
@@ -50,7 +52,9 @@ export class DragGridComponent implements OnInit {
     this.options = {
       gridType: GridType.Fit,
       displayGrid: DisplayGrid.Always,
+      compactType: CompactType.None,
       pushItems: false,
+      disableWarnings: true,
       swap: true,
       margin: 2,
       outerMargin: true,
@@ -95,11 +99,13 @@ export class DragGridComponent implements OnInit {
       {cols: 2, rows: 2, y: 0, x: 0, dragEnabled: false, resizeEnabled: false, label: 'Initial Rows = 2, Initial Columns = 2\nDrag&Resize Disabled', delete: true, edit: true},
       {cols: 8, rows: 11, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table Component', type: GraphTableComponent, edit: true},
       {cols: 12, rows: 10, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Component', type: AccountDetailComponent, edit: true},
+      {cols: 12, rows: 10, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
     ];
     this.dashboard = [
       {cols: 12, rows: 4, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderComponent, edit: true},
       {cols: 12, rows: 3, y: 27, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false, type: FooterComponent, edit: false},
       {cols: 8, rows: 11, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent, edit: true},
+      {cols: 12, rows: 12, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
     ];
     this.customComponent = {
       x: 0,
@@ -133,7 +139,7 @@ export class DragGridComponent implements OnInit {
       this.options.api.optionsChanged();
     }
     this.fixSettings(this.customComponent);
-    console.log(this.gridWidth, this.gridHeight);
+    // console.log(this.gridWidth, this.gridHeight);
   }
   changeOrientation(){
     let temp = this.gridHeight;
@@ -209,7 +215,7 @@ export class DragGridComponent implements OnInit {
   addItem() {
     let newItem: GridsterItem = {cols: this.options.minItemCols, rows: this.options.minItemRows, y: this.headerHeight, x: 0};
     newItem = Object.assign(newItem, this.customComponent);
-    console.log(newItem);
+    // console.log(newItem);
     this.fixSettings(newItem)
     this.dashboard.push(newItem);
   }

@@ -1,0 +1,41 @@
+<div *ngIf="widget.edit" style="z-index: 2; position: absolute; right: 40px; top: -20px">
+  <a class="drag-handler" (click)="openDialog()">
+    <img class="icon" src="assets/edit.png"/>&nbsp;
+  </a>
+</div>
+<div *ngIf="tooSmall">
+  <mdb-icon fas icon="exclamation-circle" class="text-danger" size="2x"></mdb-icon>
+  <span> Size too small for component.</span>
+</div>
+<div *ngIf="!atEnd">
+  <mdb-icon fas icon="exclamation-circle" class="text-danger" size="2x"></mdb-icon>
+  <span> Component not at end of page.</span>
+</div>
+<div *ngIf="!tooSmall && atEnd" class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col" *ngIf="params.dataColumns.length === 0">
+      Data Columns are not selected. Please select data columns.
+    </div>
+    <div class="col" *ngIf="params.dataColumns.length !== 0 && categories.length === 0">
+      <table width="100%">
+        <tr>
+          <ng-container *ngFor="let column of params.dataColumns; index as i;">
+            <th *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+          </ng-container>
+        </tr>
+        <tr *ngFor="let row of dataTable">
+          <ng-container *ngFor="let column of params.dataColumns; index as i;">
+            <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+    <div class="col" *ngIf="params.dataColumns.length !== 0 && categories.length !== 0">
+      <ng-container *ngFor="let category of categories">
+        <div class="row" *ngIf="params.category1Data.length !== 0">
+          <div class="col title" *ngFor="let dataColumn of params.category1Data">{{category.categoryData[0][dataColumn.value]}}</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

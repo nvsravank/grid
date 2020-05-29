@@ -1,0 +1,177 @@
+<h1 mat-dialog-title>Customize Holdings Component</h1>
+<div mat-dialog-content class="container-fluid m-1 p-1">
+  <div class="row">
+    <div class="col-8">
+      <h3>Group Holdings By:</h3>
+      <div class="container-fluid p-1 ml-2">
+        <div class="row border border-primary rounded p-1 mb-1 category">
+          <div class="col-auto pr-2">
+            <mat-form-field>
+              <mat-label>Category 1</mat-label>
+              <mat-select [(ngModel)]="params.category1" name="category" (selectionChange)="onChange1()">
+                <mat-option *ngFor="let category of categories" [value]="category.value">
+                  {{category.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>      
+          </div>
+          <div class="col" *ngIf="params.category1 !== null">
+            Detail to show for {{params.category1}}
+            <div class="row">
+              <div class="col">
+                <h4>Selected Columns</h4>
+                <div
+                  cdkDropList
+                  #category1SelectedList="cdkDropList"
+                  [cdkDropListData]="params.category1Data"
+                  [cdkDropListConnectedTo]="[category1UnselectedList]"
+                  class="column-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="column-box" *ngFor="let item of params.category1Data" cdkDrag>{{item.viewValue}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <h4>Available Columns</h4>
+          
+                <div
+                  cdkDropList
+                  #category1UnselectedList="cdkDropList"
+                  [cdkDropListData]="category1UnSelectedDataColumns"
+                  [cdkDropListConnectedTo]="[category1SelectedList]"
+                  class="column-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="column-box" *ngFor="let item of category1UnSelectedDataColumns" cdkDrag>{{item.viewValue}}</div>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+        <div class="row border border-primary rounded p-1 mb-1 category" *ngIf="params.category1 !== null">
+          <div class="col-auto pr-2">
+            <mat-form-field>
+              <mat-label>Category 2</mat-label>
+              <mat-select [(ngModel)]="params.category2" name="category" (selectionChange)="onChange2()">
+                <ng-container *ngFor="let category of categories">
+                  <mat-option *ngIf="category.value !== params.category1" [value]="category.value">
+                    {{category.viewValue}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>      
+          </div>
+          <div class="col" *ngIf="params.category2 !== null">
+            Detail to show for {{params.category2}}
+            <div class="row">
+              <div class="col">
+                <h4>Selected Columns</h4>
+                <div
+                  cdkDropList
+                  #category2SelectedList="cdkDropList"
+                  [cdkDropListData]="params.category2Data"
+                  [cdkDropListConnectedTo]="[category2UnselectedList]"
+                  class="column-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="column-box" *ngFor="let item of params.category2Data" cdkDrag>{{item.viewValue}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <h4>Available Columns</h4>
+          
+                <div
+                  cdkDropList
+                  #category2UnselectedList="cdkDropList"
+                  [cdkDropListData]="category2UnSelectedDataColumns"
+                  [cdkDropListConnectedTo]="[category2SelectedList]"
+                  class="column-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="column-box" *ngFor="let item of category2UnSelectedDataColumns" cdkDrag>{{item.viewValue}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row border border-primary rounded p-1 mb-1 category" *ngIf="params.category2 !== null">
+          <div class="col-auto pr-2">
+            <mat-form-field>
+              <mat-label>Category 3</mat-label>
+              <mat-select [(ngModel)]="params.category3" name="category" (selectionChange)="onChange3()">
+                <ng-container *ngFor="let category of categories">
+                  <mat-option *ngIf="category.value !== params.category1 && category.value !== params.category2" [value]="category.value">
+                    {{category.viewValue}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>      
+          </div>
+          <div class="col" *ngIf="params.category3 !== null">
+            Detail to show for {{params.category3}}
+            <div class="row">
+              <div class="col">
+                <h4>Selected Columns</h4>
+                <div
+                  cdkDropList
+                  #category3SelectedList="cdkDropList"
+                  [cdkDropListData]="params.category3Data"
+                  [cdkDropListConnectedTo]="[category3UnselectedList]"
+                  class="column-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="column-box" *ngFor="let item of params.category3Data" cdkDrag>{{item.viewValue}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <h4>Available Columns</h4>
+          
+                <div
+                  cdkDropList
+                  #category3UnselectedList="cdkDropList"
+                  [cdkDropListData]="category3UnSelectedDataColumns"
+                  [cdkDropListConnectedTo]="[category3SelectedList]"
+                  class="column-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="column-box" *ngFor="let item of category3UnSelectedDataColumns" cdkDrag>{{item.viewValue}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col">Columns to show in main holdings table under each category.</div>
+      </div>
+      <div class="row">
+        <div class="col mr-1">
+          <h4>Selected Columns</h4>
+          <div
+            cdkDropList
+            #selectedList="cdkDropList"
+            [cdkDropListData]="params.dataColumns"
+            [cdkDropListConnectedTo]="[availableList]"
+            class="column-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="column-box" *ngFor="let item of params.dataColumns" cdkDrag>{{item.viewValue}}</div>
+          </div>  
+        </div>
+        <div class="col mr-1">
+          <h4>Available Columns</h4>
+          <div
+            cdkDropList
+            #availableList="cdkDropList"
+            [cdkDropListData]="columnOptions"
+            [cdkDropListConnectedTo]="[selectedList]"
+            class="column-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="column-box" *ngFor="let item of columnOptions" cdkDrag>{{item.viewValue}}</div>  
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="float-right">
+  <button type="button" mdbBtn color="primary" mdbWavesEffect [mat-dialog-close]="params" cdkFocusInitial>Save</button>
+  <button type="button" mdbBtn color="primary" mdbWavesEffect outline="true" (click)="onNoClick()">Cancel</button>
+</div>

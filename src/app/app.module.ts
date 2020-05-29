@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -12,7 +13,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {GridsterModule} from 'angular-gridster2';
 import {MatMenuModule} from "@angular/material/menu";
 
-// import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ColorPickerModule } from 'ngx-color-picker';
 
@@ -26,6 +27,8 @@ import { DynamicModule } from 'ng-dynamic-component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AccountDetailComponent } from './account-detail/account-detail.component';
+import { HoldingsComponent } from './holdings/holdings.component';
+import { HoldingsCustomizationComponent } from './holdings/holdings-customization.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { AccountDetailComponent } from './account-detail/account-detail.componen
     HeaderComponent,
     FooterComponent,
     AccountDetailComponent,
+    HoldingsComponent,
+    HoldingsCustomizationComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +48,7 @@ import { AccountDetailComponent } from './account-detail/account-detail.componen
     BrowserAnimationsModule,
     FormsModule,
     MatIconModule,
+    MatDialogModule,
     MatButtonModule,
     MatSelectModule,
     MatInputModule,
@@ -53,8 +59,8 @@ import { AccountDetailComponent } from './account-detail/account-detail.componen
     MDBBootstrapModule.forRoot(),
     GridsterModule,
     ColorPickerModule,
-    DynamicModule.withComponents([GraphTableComponent, HeaderComponent, FooterComponent, AccountDetailComponent]),
-//    DragDropModule
+    DynamicModule.withComponents([GraphTableComponent, HeaderComponent, FooterComponent, AccountDetailComponent, HoldingsComponent]),
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
