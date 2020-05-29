@@ -35,6 +35,45 @@
         <div class="row" *ngIf="params.category1Data.length !== 0">
           <div class="col title" *ngFor="let dataColumn of params.category1Data">{{category.categoryData[0][dataColumn.value]}}</div>
         </div>
+        <div class="row" *ngIf="category.categoryData.length !== 0 && params.category2 === null">
+          <div class="col">
+            <table width="100%">
+              <tr>
+                <ng-container *ngFor="let column of params.dataColumns; index as i;">
+                  <th *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+                </ng-container>
+              </tr>
+              <tr *ngFor="let row of category.categoryData">
+                <ng-container *ngFor="let column of params.dataColumns; index as i;">
+                  <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+                </ng-container>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <ng-container *ngIf="params.category2 !== null">
+          <ng-container *ngFor="let category2 of category.subCategories">
+            <div class="row" *ngIf="params.category2Data.length !== 0">
+              <div class="col title" *ngFor="let dataColumn of params.category2Data">{{category2.categoryData[0][dataColumn.value]}}</div>
+            </div>
+            <div class="row" *ngIf="category2.categoryData.length !== 0 && params.category3 === null">
+              <div class="col">
+                <table width="100%">
+                  <tr>
+                    <ng-container *ngFor="let column of params.dataColumns; index as i;">
+                      <th *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+                    </ng-container>
+                  </tr>
+                  <tr *ngFor="let row of category2.categoryData">
+                    <ng-container *ngFor="let column of params.dataColumns; index as i;">
+                      <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+                    </ng-container>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </ng-container>    
+        </ng-container>
       </ng-container>
     </div>
   </div>
