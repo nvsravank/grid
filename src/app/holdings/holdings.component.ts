@@ -116,8 +116,7 @@ export class HoldingsComponent implements OnInit, OnDestroy {
       if (top != 0 || left != 0) {
         window.scroll({
         top : top,
-        left : left,
-        behavior: "smooth"
+        left : left
         });
       }
       if(result) {
