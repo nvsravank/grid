@@ -104,8 +104,7 @@ export class DragGridComponent implements OnInit {
     this.dashboard = [
       {cols: 12, rows: 4, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderComponent, edit: true},
       {cols: 12, rows: 3, y: 27, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false, type: FooterComponent, edit: false},
-      {cols: 8, rows: 11, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Custom Graph and Table Component', type: GraphTableComponent, edit: true},
-      {cols: 12, rows: 12, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
+      {cols: 12, rows: 23, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
     ];
     this.customComponent = {
       x: 0,

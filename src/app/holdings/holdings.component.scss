@@ -6,15 +6,16 @@ th {
   font-family: Arial;
   box-sizing: border-box;
   height: 31px;
-  border: 1px solid #FFFFFF;
   background-color: #07518F;
   color: #FEFEFE;
   font-size: 10px;
-  font-weight: bold;
   letter-spacing: 0;
   line-height: 11px;
   padding-left: 5px;
   padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  vertical-align: bottom;
 }
 
 td {
@@ -39,25 +40,30 @@ td {
 
 .assetName, .acctName, .combinedAccountName, .assetClass1Name, .assetClass2Name,
 .assetClass3Name, .investorName, .combinedAccountName, .mgrName, .productName, .style {
-  min-width: 175px;
-  width: 14%;
+  min-width: 180px;
+  width: 18%;
 }
 
 .value, .price, .quantity, .ror, .yield, .percentageOfAccount, .estimatedAnnualIncome,
-.unrealizedGainLoss, .beginningValue, .netContribution, .changeInValue {
-  min-width: 70px;
+.cost, .unrealizedGainLoss, .beginningValue, .netContribution, .changeInValue {
+  min-width: 60px;
   text-align: right;
-  width: 7%;
+  width: 6%;
 }
 
 .ticker, .mgmtCompany, .morningstarRating, .assetType, .acctNum, .accountType, .taxStatus {
-  min-width: 70px;
-  width: 7%;
+  min-width: 60px;
+  width: 6%;
 }
 
+.cat1Title {
+  color: #07518F;
+  font-size: 14px;
+  font-weight: bolder;
+  font-stretch: wider;
+}
 
-
-.title {
+.cat3Title {
   border-bottom: 1px solid #DCDDDE;
   border-left: 6px solid #DCDDDE;
   color: #816C46;
@@ -65,8 +71,24 @@ td {
   font-stretch: wider;
 }
 
-.date {
-  border-bottom: 1px solid #DCDDDE;
+.headerDate {
+  z-index: 2;
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+  border-bottom: 0px;
+  font-size: 12px;
+  border-top: 2px solid #07518F;
+}
+
+.cat2Total {
+  border: none;
+  font-weight: bold;
 }
 
 .color-icon {
