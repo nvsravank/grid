@@ -47,6 +47,11 @@
             </div>
           </div>
         </div>
+        <div class="row m-3" *ngIf="params.category2 !== null">
+          <div class="col">
+            <a (click)="switchCategories1and2()"><mat-icon>import_export</mat-icon></a>
+          </div>
+        </div>
         <div class="row border border-primary rounded p-1 mb-1 category" *ngIf="params.category1 !== null">
           <div class="col-auto pr-2">
             <mat-form-field>
@@ -89,6 +94,11 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row m-3" *ngIf="params.category3 !== null">
+          <div class="col">
+            <a (click)="switchCategories2and3()"><mat-icon>import_export</mat-icon></a>
           </div>
         </div>
         <div class="row border border-primary rounded p-1 mb-1 category" *ngIf="params.category2 !== null">

@@ -127,11 +127,11 @@ export class HoldingsCustomizationComponent implements OnInit {
       }
     }
     // Available options and basic column option selection is complete. Now separate the available data columns based on the category selections and selected columsn for the category.
-    this.setupandFixSelections();
+    this.setupAndFixSelections();
     // console.log(this);
   }
 
-  setupandFixSelections() {
+  setupAndFixSelections() {
     this.category1UnSelectedDataColumns = [];
     this.category2UnSelectedDataColumns = [];
     this.category3UnSelectedDataColumns = [];
@@ -174,6 +174,35 @@ export class HoldingsCustomizationComponent implements OnInit {
     // console.log('The dialog is being closed:' + JSON.stringify(this.params));
     this.dialogRef.close();
   }
+
+  switchCategories1and2(){
+    const tempCategory1 = this.params.category1;
+    const tempCategory1Data = this.params.category1Data;
+    const tempCategory1UnselectedData = this.category1UnSelectedDataColumns;
+
+    this.params.category1 = this.params.category2;
+    this.params.category1Data = this.params.category2Data;
+    this.category1UnSelectedDataColumns = this.category2UnSelectedDataColumns;
+
+    this.params.category2 = tempCategory1;
+    this.params.category2Data = tempCategory1Data;
+    this.category2UnSelectedDataColumns = tempCategory1UnselectedData;
+    this.setupAndFixSelections();
+  }
+  switchCategories2and3(){
+    const tempCategory2 = this.params.category2;
+    const tempCategory2Data = this.params.category2Data;
+    const tempCategory2UnselectedData = this.category2UnSelectedDataColumns;
+
+    this.params.category2 = this.params.category3;
+    this.params.category2Data = this.params.category3Data;
+    this.category2UnSelectedDataColumns = this.category3UnSelectedDataColumns;
+
+    this.params.category3 = tempCategory2;
+    this.params.category3Data = tempCategory2Data;
+    this.category3UnSelectedDataColumns = tempCategory2UnselectedData;
+    this.setupAndFixSelections();
+  }
   onChange1(){
     this.params.category1Data=[];
     this.category1UnSelectedDataColumns=[];
@@ -196,25 +225,35 @@ export class HoldingsCustomizationComponent implements OnInit {
       this.params.category3 = null;
       this.params.category2Data = this.params.category3Data;
       this.params.category3Data = [];
+      this.setupAndFixSelections();
+      return;
     }
     if (this.params.category3 === this.params.category1) {
       //Category 1 was selected to be the same as category 3. So clean category 3 and move it's setting to category 1.
       this.params.category3 = null;
       this.params.category1Data = this.params.category3Data;
       this.params.category3Data = [];
+      this.setupAndFixSelections();
+      return;
     }
     if (this.params.category2 === this.params.category1) {
       //Category 1 was selected to be the same as category 2. So clean category 2 and move it's setting to category 1.
       this.params.category2 = null;
       this.params.category1Data = this.params.category2Data;
       this.params.category2Data = [];
+      this.setupAndFixSelections();
+      return;
     }
     if (this.params.category1 === null && this.params.category2 !== null) {
       // Category 1 is unselected after selecting category 2. So clean category 2 and move it's setting to category 1.
       this.params.category1 = this.params.category2;
-      this.params.category2 = null;
+      this.params.category2 = this.params.category3;
+      this.params.category3 = null;
       this.params.category1Data = this.params.category2Data;
-      this.params.category2Data = [];
+      this.params.category2Data = this.params.category3Data;
+      this.params.category3Data = [];
+      this.setupAndFixSelections();
+      return;
     }
     if (this.params.category2 === null && this.params.category3 !== null) {
       // Category 2 is unselected after selecting category 3. So clean category 3 and move it's setting to category 2.
@@ -223,8 +262,10 @@ export class HoldingsCustomizationComponent implements OnInit {
       this.params.category3 = null;
       this.params.category2Data = this.params.category3Data;
       this.params.category3Data = [];
+      this.setupAndFixSelections();
+      return;
     }
-    this.setupandFixSelections();
+    this.setupAndFixSelections();
   }
 
 }

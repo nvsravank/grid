@@ -31,7 +31,7 @@ export class HoldingsComponent implements OnInit, OnDestroy {
   resizeSub: Subscription;
   params: HoldingsCustomizationParameters;
   dataTable = [];
-  mincolumns = [0,0,0,0,5,6,8,9,10,11];
+  mincolumns = [0,0,0,4,5,6,8,9,10,11];
   categories: Category[] = [];
 
   constructor(public dialog: MatDialog) {
@@ -40,6 +40,10 @@ export class HoldingsComponent implements OnInit, OnDestroy {
       {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "Apple Inc.", ticker:"appl", mgmtCompany: null, morningstarRating: "5 star", assetType: "Stock", assetClass1Name: "Large Cap", assetClass2Name: "Growth", assetClass3Name: "Technology", investorName: "Investor Name 1", acctNum: "127635417237", acctName: "Short Account Name 2", combinedAccountName: "Lion Account", mgrName: "Blackrock", productName: "Lion Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123456", acctId: "123457", assetId: "CUSIPv 12345", assetClass1Id: "ACL1 ID 1", assetClass2Id: "ACL2 ID 1", assetClass3Id: "ACL3 ID 1" },
       {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "Apple Inc.", ticker:"appl", mgmtCompany: null, morningstarRating: "5 star", assetType: "Stock", assetClass1Name: "Large Cap", assetClass2Name: "Growth", assetClass3Name: "Technology", investorName: "Investor Name 2", acctNum: "127635417236", acctName: "Short Account Name 1", combinedAccountName: "Eagle Account", mgrName: "Blackrock", productName: "Eagle Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123457", acctId: "123456", assetId: "CUSIPv 12345", assetClass1Id: "ACL1 ID 1", assetClass2Id: "ACL2 ID 1", assetClass3Id: "ACL3 ID 1" },
       {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "Apple Inc.", ticker:"appl", mgmtCompany: null, morningstarRating: "5 star", assetType: "Stock", assetClass1Name: "Large Cap", assetClass2Name: "Growth", assetClass3Name: "Technology", investorName: "Investor Name 2", acctNum: "127635417237", acctName: "Short Account Name 2", combinedAccountName: "Lion Account", mgrName: "Blackrock", productName: "Lion Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123457", acctId: "123457", assetId: "CUSIPv 12345", assetClass1Id: "ACL1 ID 1", assetClass2Id: "ACL2 ID 1", assetClass3Id: "ACL3 ID 1" },
+      {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "QQQ ETF", ticker:"QQQ", mgmtCompany: null, morningstarRating: "4 star", assetType: "ETF", assetClass1Name: "Index Fund", assetClass2Name: "Balanced", assetClass3Name: "Industry", investorName: "Investor Name 1", acctNum: "127635417236", acctName: "Short Account Name 1", combinedAccountName: "Eagle Account", mgrName: "Blackrock", productName: "Eagle Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123456", acctId: "123456", assetId: "CUSIPv 12346", assetClass1Id: "ACL1 ID 2", assetClass2Id: "ACL2 ID 2", assetClass3Id: "ACL3 ID 3" },
+      {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "QQQ ETF", ticker:"QQQ", mgmtCompany: null, morningstarRating: "4 star", assetType: "ETF", assetClass1Name: "Index Fund", assetClass2Name: "Balanced", assetClass3Name: "Industry", investorName: "Investor Name 1", acctNum: "127635417237", acctName: "Short Account Name 2", combinedAccountName: "Lion Account", mgrName: "Blackrock", productName: "Lion Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123456", acctId: "123457", assetId: "CUSIPv 12346", assetClass1Id: "ACL1 ID 2", assetClass2Id: "ACL2 ID 2", assetClass3Id: "ACL3 ID 3" },
+      {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "QQQ ETF", ticker:"QQQ", mgmtCompany: null, morningstarRating: "4 star", assetType: "ETF", assetClass1Name: "Index Fund", assetClass2Name: "Balanced", assetClass3Name: "Industry", investorName: "Investor Name 2", acctNum: "127635417236", acctName: "Short Account Name 1", combinedAccountName: "Eagle Account", mgrName: "Blackrock", productName: "Eagle Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123457", acctId: "123456", assetId: "CUSIPv 12346", assetClass1Id: "ACL1 ID 2", assetClass2Id: "ACL2 ID 2", assetClass3Id: "ACL3 ID 3" },
+      {quantity: 200, price: 25.56, value: 5112, ror: 12.5345365, yield: 2.56, percentageOfAccount: 25.45655, estimatedAnnualIncome: 400.00, unrealizedGainLoss: 3000.00, beginningValue: 4000.00, netContribution: 0, changeInValue: 1112.00, assetName: "QQQ ETF", ticker:"QQQ", mgmtCompany: null, morningstarRating: "4 star", assetType: "ETF", assetClass1Name: "Index Fund", assetClass2Name: "Balanced", assetClass3Name: "Industry", investorName: "Investor Name 2", acctNum: "127635417237", acctName: "Short Account Name 2", combinedAccountName: "Lion Account", mgrName: "Blackrock", productName: "Lion Account", style: "Growth", accountType: "Retail", taxStatus: "Post Tax", investorId: "123457", acctId: "123457", assetId: "CUSIPv 12346", assetClass1Id: "ACL1 ID 2", assetClass2Id: "ACL2 ID 2", assetClass3Id: "ACL3 ID 3" },
     ];
     this.params = {
       category1: "investor",
@@ -71,10 +75,11 @@ export class HoldingsComponent implements OnInit, OnDestroy {
   }
   sizing() {
     // console.log("New Size:\nRows: " + this.widget.rows + "\nColumns: " + this.widget.cols);
-    if(!this.gridOptions) {
+    if(!this.gridOptions || this.widget.cols < 3) {
       this.tooSmall = true;
       return;
     }
+    this.tooSmall = false;
     const y = this.gridOptions.maxRows - this.footerHeight - this.widget.rows;
     // console.log("Settings\nGrid Max Rows: " + this.gridOptions.maxRows + "\nFooter Height: " + this.footerHeight + "\nWidget Rows: " + this.widget.rows + "\nCalculated Y: " + y + "\nActual Y: " + this.widget.y);
     if(y !== this.widget.y) {
@@ -134,21 +139,29 @@ export class HoldingsComponent implements OnInit, OnDestroy {
       //Nocategories defined. So use full Data Table.
       return;
     }
-    console.log("Came to separate data");
+    // console.log("Came to separate data");
     // Need to separate rows into categories
     // identify Primary column in data.
     let primaryColumn = this.identifyPrimaryColumn(this.params.category1);
     this.allocateRowsToCategory(this.dataTable, this.categories, primaryColumn);
-    console.log(this.categories);
+    // console.log(this.categories);
     if (this.params.category2 !== null) {
       //need to further categorize.
       primaryColumn = this.identifyPrimaryColumn(this.params.category2);
       this.categories.forEach(category => {
         category.subCategories = [];
-        this.allocateRowsToCategory(category.categoryData, category.subCategories, primaryColumn);        
+        this.allocateRowsToCategory(category.categoryData, category.subCategories, primaryColumn);
+        if (this.params.category3 !== null) {
+          //need to further categorize.
+          primaryColumn = this.identifyPrimaryColumn(this.params.category3);
+          category.subCategories.forEach(category2 => {
+            category2.subCategories = [];
+            this.allocateRowsToCategory(category2.categoryData, category2.subCategories, primaryColumn);        
+          });
+        }      
       });
     }
-    console.log(this.categories);
+    // console.log(this.categories);
   }
 
   allocateRowsToCategory(dataSet: any[], categories: Category[], primaryColumn: string){

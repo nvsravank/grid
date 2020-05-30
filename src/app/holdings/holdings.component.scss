@@ -37,17 +37,24 @@ td {
   height: 25px;
 }
 
-.assetName, .accountName, .combinedAccountName {
-  min-width: 200px;
-  width: 15%;
+.assetName, .acctName, .combinedAccountName, .assetClass1Name, .assetClass2Name,
+.assetClass3Name, .investorName, .combinedAccountName, .mgrName, .productName, .style {
+  min-width: 175px;
+  width: 14%;
 }
 
 .value, .price, .quantity, .ror, .yield, .percentageOfAccount, .estimatedAnnualIncome,
-.unrealizedGainLoss, .beginningValue {
-  min-width: 80px;
+.unrealizedGainLoss, .beginningValue, .netContribution, .changeInValue {
+  min-width: 70px;
   text-align: right;
-  width: 8%;
+  width: 7%;
 }
+
+.ticker, .mgmtCompany, .morningstarRating, .assetType, .acctNum, .accountType, .taxStatus {
+  min-width: 70px;
+  width: 7%;
+}
+
 
 
 .title {
