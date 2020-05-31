@@ -182,6 +182,6 @@
   </div>
 </div>
 <div mat-dialog-actions class="float-right">
-  <button type="button" mdbBtn color="primary" mdbWavesEffect [mat-dialog-close]="params" cdkFocusInitial>Save</button>
+  <button type="button" mdbBtn color="primary" mdbWavesEffect [mat-dialog-close]="params" cdkFocusInitial [disabled]="saveDisabled">Save</button>
   <button type="button" mdbBtn color="primary" mdbWavesEffect outline="true" (click)="onNoClick()">Cancel</button>
 </div>

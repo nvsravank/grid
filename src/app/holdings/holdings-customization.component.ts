@@ -63,6 +63,7 @@ interface DataColumn extends Selection {
   styleUrls: ['./holdings-customization.component.scss']
 })
 export class HoldingsCustomizationComponent implements OnInit {
+  saveDisabled: boolean = true;
   categories: Selection[] = [
     {value: null, viewValue: 'No Category Selected'},
     {value: 'investor', viewValue: 'Investor'},
@@ -72,7 +73,6 @@ export class HoldingsCustomizationComponent implements OnInit {
     {value: 'assetClass2', viewValue: 'Asset Classification 2'},
     {value: 'assetClass3', viewValue: 'Asset Classification 3'},
   ];
-
   columnOptions: Selection[] = [];
   investorAvailableDataColumns: DataColumn[] = [];
   assetAvailableDataColumns: DataColumn[] = [];
@@ -93,6 +93,7 @@ export class HoldingsCustomizationComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
+    this.disableSaveIfRequiredColumnsNotSelected();
   }
 
   constructor(public dialogRef: MatDialogRef<HoldingsCustomizationComponent>,
@@ -135,6 +136,7 @@ export class HoldingsCustomizationComponent implements OnInit {
   }
 
   setupAndFixSelections() {
+    this.disableSaveIfRequiredColumnsNotSelected();
     this.category1UnSelectedDataColumns = [];
     this.category2UnSelectedDataColumns = [];
     this.category3UnSelectedDataColumns = [];
@@ -167,6 +169,14 @@ export class HoldingsCustomizationComponent implements OnInit {
       }
       if(!found) {unSelectedColumns.push(availableElement);}
     }
+  }
+
+  disableSaveIfRequiredColumnsNotSelected(){
+    this.saveDisabled = false;
+    if (this.params.category1 !== null && this.params.category1Data.length === 0) {this.saveDisabled = true; }
+    if (this.params.category2 !== null && this.params.category2Data.length === 0) {this.saveDisabled = true; }
+    if (this.params.category3 !== null && this.params.category3Data.length === 0) {this.saveDisabled = true; }
+    if (this.params.dataColumns.length === 0) {this.saveDisabled = true; }
   }
 
   ngOnInit(): void {
@@ -242,8 +252,10 @@ export class HoldingsCustomizationComponent implements OnInit {
     if (this.params.category2 === this.params.category1) {
       //Category 1 was selected to be the same as category 2. So clean category 2 and move it's setting to category 1.
       this.params.category2 = null;
+      this.params.category3 = null;
       this.params.category1Data = this.params.category2Data;
       this.params.category2Data = [];
+      this.params.category3Data = [];
       this.setupAndFixSelections();
       return;
     }
