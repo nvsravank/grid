@@ -6,13 +6,12 @@ th {
   height: 31px;
   border: 1px solid #FFFFFF;
   background-color: #07518F;
-  color: #FEFEFE;
+  color: #FFFFFF;
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 0;
   line-height: 11px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 5px;
 }
 
 td {
@@ -79,12 +78,12 @@ td {
   border-top: 2px solid #07518F;
 }
 
-.title {
-  border-bottom: 1px solid #DCDDDE;
-  border-left: 6px solid #DCDDDE;
-  color: #816C46;
-  font-weight: bolder;
-  font-stretch: wider;
+.report_header {
+  border-bottom: 1px solid #D9D9D9;
+  border-left: 6px solid #D9D9D9;
+  color: #A29060;
+  font-weight: bold;
+  font-size: 13px;
 }
 
 .date {

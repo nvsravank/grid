@@ -13,18 +13,18 @@ export interface HoldingsCustomizationParameters {
 
 export class AvailableColumnOptions {
   static columnOptions: DataColumn[] = [
-    {value: 'quantity', viewValue: 'Quantity', parentValue: "holding"},
-    {value: 'price', viewValue: 'Price ($)', parentValue: "holding"},
-    {value: 'value', viewValue: 'Value ($)', parentValue: "holding"},
-    {value: 'ror', viewValue: 'Rate of Return', parentValue: "holding"},
-    {value: 'yield', viewValue: 'Current Yield (%)', parentValue: "holding"},
-    {value: 'percentageOfAccount', viewValue: '% of Account', parentValue: "holding"},
-    {value: 'estimatedAnnualIncome', viewValue: 'Estimated Annual Income ($)', parentValue: "holding"},
-    {value: 'cost', viewValue: 'Cost ($)', parentValue: "holding"},
-    {value: 'unrealizedGainLoss', viewValue: 'Unrealized Gain/Loss ($)', parentValue: "holding"},
-    {value: 'beginningValue', viewValue: 'Beginning Value', parentValue: "holding"},
-    {value: 'netContribution', viewValue: 'Net Contribution', parentValue: "holding"},
-    {value: 'changeInValue', viewValue: 'Change In Value', parentValue: "holding"},
+    {value: 'quantity', viewValue: 'Quantity', parentValue: "holding", isNumber: true},
+    {value: 'price', viewValue: 'Price ($)', parentValue: "holding", isNumber: true},
+    {value: 'value', viewValue: 'Value ($)', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'ror', viewValue: 'Rate of Return', parentValue: "holding", isNumber: true},
+    {value: 'yield', viewValue: 'Current Yield (%)', parentValue: "holding", isNumber: true},
+    {value: 'percentageOfAccount', viewValue: '% of Account', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'estimatedAnnualIncome', viewValue: 'Estimated Annual Income ($)', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'cost', viewValue: 'Cost ($)', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'unrealizedGainLoss', viewValue: 'Unrealized Gain/Loss ($)', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'beginningValue', viewValue: 'Beginning Value', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'netContribution', viewValue: 'Net Contribution', parentValue: "holding", isNumber: true, isAdditive: true},
+    {value: 'changeInValue', viewValue: 'Change In Value', parentValue: "holding", isNumber: true, isAdditive: true},
     {value: 'assetName', viewValue: 'Asset Name', parentValue: "asset"},
     {value: 'ticker', viewValue: 'Ticker Synbol', parentValue: "asset"},
     {value: 'mgmtCompany', viewValue: 'Management Company', parentValue: "asset"},
@@ -52,7 +52,9 @@ export interface Selection {
 }
 
 interface DataColumn extends Selection {
-  parentValue?: string
+  parentValue?: string;
+  isNumber?: boolean;
+  isAdditive?: boolean;
 }
 
 @Component({
@@ -245,23 +247,19 @@ export class HoldingsCustomizationComponent implements OnInit {
       this.setupAndFixSelections();
       return;
     }
-    if (this.params.category1 === null && this.params.category2 !== null) {
+    if (this.params.category1 === null) {
       // Category 1 is unselected after selecting category 2. So clean category 2 and move it's setting to category 1.
-      this.params.category1 = this.params.category2;
-      this.params.category2 = this.params.category3;
+      this.params.category2 = null;
       this.params.category3 = null;
-      this.params.category1Data = this.params.category2Data;
-      this.params.category2Data = this.params.category3Data;
+      this.params.category2Data = [];
       this.params.category3Data = [];
       this.setupAndFixSelections();
       return;
     }
-    if (this.params.category2 === null && this.params.category3 !== null) {
+    if (this.params.category2 === null) {
       // Category 2 is unselected after selecting category 3. So clean category 3 and move it's setting to category 2.
       //This might happen in the previous if block since category 1 was unselected after selecting both 2 and 3.
-      this.params.category2 = this.params.category3;
       this.params.category3 = null;
-      this.params.category2Data = this.params.category3Data;
       this.params.category3Data = [];
       this.setupAndFixSelections();
       return;

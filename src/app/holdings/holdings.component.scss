@@ -7,21 +7,18 @@ th {
   box-sizing: border-box;
   height: 31px;
   background-color: #07518F;
-  color: #FEFEFE;
+  color: #FFFFFF;
   font-size: 10px;
   letter-spacing: 0;
   line-height: 11px;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px;
   vertical-align: bottom;
 }
 
 td {
   border-top: 1px solid #E1E1E1;
-  border-bottom: 1px solid #E1E1E1;
-  height: 28px;
+  border-bottom: 0px solid #E1E1E1;
+  height: 22px;
   vertical-align: middle;
   font-family: Arial;
   font-size: 12px;
@@ -30,18 +27,10 @@ td {
   padding-right: 5px;
 }
 
-.pie {
-  height: 180px !important;
-}
-
-.orientation {
-  height: 25px;
-}
-
 .assetName, .acctName, .combinedAccountName, .assetClass1Name, .assetClass2Name,
 .assetClass3Name, .investorName, .combinedAccountName, .mgrName, .productName, .style {
-  min-width: 180px;
-  width: 18%;
+  min-width: 220px;
+  width: 22%;
 }
 
 .value, .price, .quantity, .ror, .yield, .percentageOfAccount, .estimatedAnnualIncome,
@@ -51,7 +40,11 @@ td {
   width: 6%;
 }
 
-.ticker, .mgmtCompany, .morningstarRating, .assetType, .acctNum, .accountType, .taxStatus {
+.ticker {
+  min-width: 40px;
+  width: 4%;
+}
+.mgmtCompany, .morningstarRating, .assetType, .acctNum, .accountType, .taxStatus {
   min-width: 60px;
   width: 6%;
 }
@@ -66,7 +59,7 @@ td {
 .cat3Title {
   border-bottom: 1px solid #DCDDDE;
   border-left: 6px solid #DCDDDE;
-  color: #816C46;
+  color: #A29060;
   font-weight: bolder;
   font-stretch: wider;
 }
@@ -83,12 +76,21 @@ td {
   font-weight: bold;
   border-bottom: 0px;
   font-size: 12px;
-  border-top: 2px solid #07518F;
+  border-top: 1px solid #07518F;
 }
 
 .cat2Total {
   border: none;
   font-weight: bold;
+}
+
+.cat1Total, .cat1TotalValue {
+  border: none;
+  font-weight: bold;
+}
+
+.cat1TotalValue {
+  color: #A29060;
 }
 
 .color-icon {

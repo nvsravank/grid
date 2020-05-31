@@ -1,9 +1,11 @@
 <div *ngIf="widget.edit" style="z-index: 2; position: absolute; right: 40px; top: -20px">
+  <a (click)="setDataSet1()">Use Data Set 1</a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <a (click)="setDataSet2()">Use Data Set 2</a> &nbsp;&nbsp;&nbsp;&nbsp;
   <a class="drag-handler" (click)="openDialog()">
     <img class="icon" src="assets/edit.png"/>&nbsp;
   </a>
 </div>
-<div class="headerDate">
+<div class="headerDate" *ngIf="categories.length !== 0">
   As of: 3/31/20
 </div>
 <div *ngIf="tooSmall">
@@ -19,6 +21,9 @@
     <div class="col" *ngIf="params.dataColumns.length === 0">
       Data Columns are not selected. Please select data columns.
     </div>
+    <div class="col-12 font-weight-bold text-right pt-1 pb-1" *ngIf="categories.length === 0">
+      As of: 3/31/20
+    </div>
     <div class="col" *ngIf="params.dataColumns.length !== 0 && categories.length === 0">
       <table width="100%">
         <tr>
@@ -28,7 +33,20 @@
         </tr>
         <tr *ngFor="let row of dataTable">
           <ng-container *ngFor="let column of params.dataColumns; index as i;">
-            <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+            <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">
+              <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+              <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+              <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+            </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container *ngFor="let column of params.dataColumns; index as m;">
+            <td *ngIf="m === 0 && ( widget.cols > mincolumns[m])" class="total {{column.value}} text-right">Total:</td>
+            <td *ngIf="m !==0 && m < 10 && ( widget.cols > mincolumns[m])" class="total {{column.value}}">
+              <span *ngIf="uncategorized.summaryData[column.value] !== 0">{{uncategorized.summaryData[column.value] | number:'1.2-3'}}</span>
+              <span *ngIf="uncategorized.summaryData[column.value] === 0">--</span>
+            </td>
           </ng-container>
         </tr>
       </table>
@@ -51,14 +69,27 @@
               </tr>
               <tr *ngFor="let row of category1.categoryData">
                 <ng-container *ngFor="let column of params.dataColumns; index as i;">
-                  <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+                  <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">
+                    <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+                    <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+                    <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr>
+                <ng-container *ngFor="let column of params.dataColumns; index as m;">
+                  <td *ngIf="m === 0 && ( widget.cols > mincolumns[m])" class="total {{column.value}} text-right">{{category1.categoryData[0][params.category1Data[0].value]}} Total:</td>
+                  <td *ngIf="m !==0 && m < 10 && ( widget.cols > mincolumns[m])" class="total {{column.value}}">
+                    <span *ngIf="category1.summaryData[column.value] !== 0">{{category1.summaryData[column.value] | number:'1.2-3'}}</span>
+                    <span *ngIf="category1.summaryData[column.value] === 0">--</span>
+                  </td>
                 </ng-container>
               </tr>
             </table>
           </div>
         </div>
         <ng-container *ngIf="params.category2 !== null">
-          <ng-container *ngFor="let category2 of category1.subCategories">
+          <ng-container *ngFor="let category2 of category1.subCategories; index as cat2Index">
             <div class="row" *ngIf="params.category2Data.length !== 0">
               <ng-container *ngFor="let dataColumn of params.category2Data; index as k">
                 <div class="col-12 cat2Detail" *ngIf="k === 0 && category2.categoryData[0][dataColumn.value] !== null"><span class="font-weight-bold">{{dataColumn.viewValue}}:</span> {{category2.categoryData[0][dataColumn.value] | uppercase}}</div>
@@ -75,7 +106,27 @@
                   </tr>
                   <tr *ngFor="let row of category2.categoryData">
                     <ng-container *ngFor="let column of params.dataColumns; index as i;">
-                      <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+                      <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">
+                        <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+                        <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+                        <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+                      </td>
+                    </ng-container>
+                  </tr>
+                  <tr>
+                    <ng-container *ngFor="let column of params.dataColumns; index as m;">
+                      <td *ngIf="m === 0 && ( widget.cols > mincolumns[m])" class="total {{column.value}} text-right">{{category2.categoryData[0][params.category2Data[0].value]}} Total:</td>
+                      <td *ngIf="m !==0 && m < 10 && ( widget.cols > mincolumns[m])" class="total {{column.value}}">
+                        <span *ngIf="category2.summaryData[column.value] !== 0">{{category2.summaryData[column.value] | number:'1.2-3'}}</span>
+                        <span *ngIf="category2.summaryData[column.value] === 0">--</span>
+                      </td>
+                    </ng-container>
+                  </tr>
+                  <tr *ngIf="valueColumnIndex !== 0 && category1.subCategories.length === (cat2Index+1)">
+                    <ng-container *ngFor="let column of params.dataColumns; index as n;">
+                      <td *ngIf="n === 0" colspan="5" class="cat1Total {{column.value}} text-right">{{category1.categoryData[0][params.category1Data[0].value]}} Total:</td>
+                      <td *ngIf="n === valueColumnIndex" class="cat1TotalValue {{column.value}}">$ {{category1.summaryData["value"] | number:'1.2-3'}}</td>
+                      <td *ngIf="n > valueColumnIndex" class="cat1Total">&nbsp;</td>
                     </ng-container>
                   </tr>
                 </table>
@@ -99,20 +150,34 @@
                       </tr>
                       <tr *ngFor="let row of category3.categoryData">
                         <ng-container *ngFor="let column of params.dataColumns; index as i;">
-                          <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">{{row[column.value]}}</td>
+                          <td *ngIf="i < 10 && ( widget.cols > mincolumns[i])" class="data {{column.value}}">
+                            <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+                            <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+                            <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+                          </td>
                         </ng-container>
                       </tr>
                       <tr>
                         <ng-container *ngFor="let column of params.dataColumns; index as m;">
                           <td *ngIf="m === 0 && ( widget.cols > mincolumns[m])" class="total {{column.value}} text-right">{{category3.categoryData[0][params.category3Data[0].value]}} Total:</td>
-                          <td *ngIf="m !==0 && m < 10 && ( widget.cols > mincolumns[m])" class="total {{column.value}}">--</td>
+                          <td *ngIf="m !==0 && m < 10 && ( widget.cols > mincolumns[m])" class="total {{column.value}}">
+                            <span *ngIf="category3.summaryData[column.value] !== 0">{{category3.summaryData[column.value] | number:'1.2-3'}}</span>
+                            <span *ngIf="category3.summaryData[column.value] === 0">--</span>
+                          </td>
                         </ng-container>
                       </tr>
                       <tr *ngIf="valueColumnIndex !== 0 && category2.subCategories.length === (cat3Index+1)">
                         <ng-container *ngFor="let column of params.dataColumns; index as n;">
-                          <td *ngIf="n === 0" colspan="5" class="cat2Total {{column.value}} text-right">{{category2.categoryData[0][params.category2Data[0].value]}} Total:</td>
-                          <td *ngIf="n === valueColumnIndex" class="cat2Total {{column.value}}">Sum</td>
+                          <td *ngIf="n === 0" [attr.colspan]="valueColumnIndex" class="cat2Total {{column.value}} text-right">{{category2.categoryData[0][params.category2Data[0].value]}} Total:</td>
+                          <td *ngIf="n === valueColumnIndex" class="cat2Total {{column.value}}">$ {{category2.summaryData["value"] | number:'1.2-3'}}</td>
                           <td *ngIf="n > valueColumnIndex" class="cat2Total">&nbsp;</td>
+                        </ng-container>
+                      </tr>
+                      <tr *ngIf="valueColumnIndex !== 0 && category2.subCategories.length === (cat3Index+1) && category1.subCategories.length === (cat2Index+1)">
+                        <ng-container *ngFor="let column of params.dataColumns; index as n;">
+                          <td *ngIf="n === 0" [attr.colspan]="valueColumnIndex" class="cat1Total {{column.value}} text-right">{{category1.categoryData[0][params.category1Data[0].value]}} Total:</td>
+                          <td *ngIf="n === valueColumnIndex" class="cat1TotalValue {{column.value}}">$ {{category1.summaryData["value"] | number:'1.2-3'}}</td>
+                          <td *ngIf="n > valueColumnIndex" class="cat1Total">&nbsp;</td>
                         </ng-container>
                       </tr>
                     </table>
@@ -122,9 +187,6 @@
             </ng-container>
           </ng-container>    
         </ng-container>
-        <div>
-          Category 1 Total
-        </div>
       </ng-container>
     </div>
   </div>
