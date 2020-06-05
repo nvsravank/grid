@@ -109,11 +109,6 @@
         </mat-select>
       </mat-form-field>    
     </div>
-    <div class="col col-xl-2 col-md-3 col-xs-4">
-      <button (click)="autoLayout()">AutoLayout
-        <mat-icon>palette</mat-icon>
-      </button>
-    </div>
     <!--
     <div class="col col-xl-2 col-md-3 col-xs-4">
       <mat-form-field>
@@ -165,6 +160,11 @@
                     class="mr-2 ml-1">
               <mat-icon>add</mat-icon>
             </button>
+            <button mat-mini-fab color="warn" (mousedown)="addDefinedItem2($event, item)"
+                    (touchstart)="addDefinedItem2($event, item)"
+                    class="mr-2 ml-1">
+              <mat-icon>add</mat-icon>
+            </button>
             <label>{{item.label}}</label>
           </div>
         </div>
@@ -173,6 +173,9 @@
         <div class="row">
           <div class="col p-1 rounded-pill border border-primary m-1">
             <button mat-mini-fab (click)="addItem()" class="mr-2 ml-0 p-0">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn" (click)="addItem2()" class="mr-2 ml-0 p-0">
               <mat-icon>add</mat-icon>
             </button>
             <label>Add a custom component with the below settings:</label>
@@ -218,32 +221,10 @@
         </div>
       </div>
     </div>
+    <!--[className]="portraitOrientation ? 'portraitGrid' : 'landscapeGrid'" -->
     <div class="col-auto mr-2" [style.min-width.px]="gridWidth" [style.min-height.px]="gridHeight" [style.max-width.px]="gridWidth" [style.max-height.px]="gridHeight">
-      <div class="layout mb-2">
-        <div *ngIf="singleComponent">
-          <img class="layoutImage" src="/assets/single-component.png"/> There is only one component in the grid. Ensure it is sized to the complete width.
-        </div>
-        <div *ngIf="!singleComponent && columnLayout && !rowLayout">
-          <img class="layoutImage" src="/assets/column-layout.png"/> The grid has been identified as using Column Layout. This layout will place each item in a column just below the other based on the vertical height based on the content.
-        </div>
-        <div *ngIf="!singleComponent && !columnLayout && rowLayout">
-          <img class="layoutImage" src="/assets/row-layout.png"/> The grid has been identified as using Row Layout. This layout will place all items in a row together first before the next row is laid out.
-        </div>
-        <div *ngIf="!singleComponent && columnLayout && rowLayout">
-          <button (click)="changeLayout()">Switch Layout</button>
-          <div *ngIf="columnLayoutSelected">
-            <img class="layoutImage" src="/assets/column-layout.png"/> You have selected to use Column Layout. This layout will place each item in a column just below the other based on the vertical height based on the content.
-          </div>
-          <div *ngIf="!columnLayoutSelected">
-            <img class="layoutImage" src="/assets/row-layout.png"/> You have selected to use Row Layout. This layout will place all items in a row together first before the next row is laid out.
-          </div>
-          </div>
-      </div>
-      <div *ngIf="!singleComponent && !columnLayout && !rowLayout">
-        Error in layout. The grid cannot be Column or Row Layout. This layout cannot be saved as is.
-      </div>
       <gridster [options]="options" [ngStyle]="{'background-color': gridBackgroundColor}" class="gridsterstyles">
-        <gridster-item [item]="item" *ngFor="let item of dashboard" [ngStyle]="{'background-color': item.backgroundColor}">
+        <gridster-item [item]="item" *ngFor="let item of dashboard">
           <div class="container-fluid pl-1 pr-1">
             <div class="d-flex justify-content-between row" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
               <div class="col-10">&nbsp;</div>
@@ -276,5 +257,42 @@
         </gridster-item>
       </gridster>
     </div>
+
+    <div class="col-auto mr-2" [style.min-width.px]="gridWidth" [style.min-height.px]="gridHeight" [style.max-width.px]="gridWidth" [style.max-height.px]="gridHeight">
+      <gridster [options]="options2" [ngStyle]="{'background-color': gridBackgroundColor}" class="gridsterstyles">
+        <gridster-item [item]="item" *ngFor="let item of dashboard2">
+          <div class="container-fluid pl-1 pr-1">
+            <div class="d-flex justify-content-between row" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
+              <div class="col-10">&nbsp;</div>
+              <div class="item-buttons col-auto" style="z-index: 2; position: absolute; left: 0px;">
+                <a class="drag-handler" *ngIf="item.dragEnabled">
+                  <img class="icon" src="assets/move.png"/>
+                </a>
+              </div>
+              <div class="item-buttons col-auto" style="z-index: 2; position: absolute; right: 0px;">
+                <a class="drag-handler" *ngIf="item.edit">
+                  <img class="icon" src="assets/edit.png"/>&nbsp;
+                </a>
+                <a *ngIf="item.delete" (mousedown)="removeItem2($event, item)"
+                  (touchstart)="removeItem2($event, item)">
+                  <img class="icon" src="assets/remove.png"/>
+                </a>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="!item.hasContent" class="gridster-item-content col">
+                <textarea matInput rows="4" placeholder="Label will be:" class="font-weight-bold blue-text">{{item.label}}</textarea>
+              </div>
+              <div *ngIf="item.hasContent" class="gridster-item-content col">
+                <ndc-dynamic [ndcDynamicComponent]="item.type"
+                  [ndcDynamicInputs]="{widget: item, resizeEvent: resizeEvent, portraitOrientation: portraitOrientation, gridOptions: options, footerHeight: footerHeight}">
+                </ndc-dynamic>
+              </div>
+            </div>
+          </div>
+        </gridster-item>
+      </gridster>
+    </div>
+
   </div>
 </div>

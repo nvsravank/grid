@@ -4,6 +4,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { AccountDetailComponent } from '../account-detail/account-detail.component';
 import { HoldingsComponent } from '../holdings/holdings.component';
+import { GraphComponent } from '../graph/graph.component';
 
 import {
   DisplayGrid,
@@ -15,9 +16,20 @@ import {
   GridType,
   CompactType
 } from 'angular-gridster2';
+import { isArray, isUndefined } from 'util';
+import { isNgTemplate } from '@angular/compiler';
 
 interface Safe extends GridsterConfig {
   draggable: Draggable;
+}
+
+class Group{
+  groupType: string;
+  item: GridsterItem;
+  subGroups: Array<Group>;
+  starting: number;
+  length: number;
+  ending: number;
 }
 
 @Component({
@@ -38,6 +50,295 @@ export class DragGridComponent implements OnInit {
   gridHeight: number = 850;
   gridScale: number = 100;
   resizeEvent: EventEmitter<any> = new EventEmitter<any>();
+  columnLayout: boolean = true;
+  rowLayout: boolean = true;
+  singleComponent: boolean = false;
+  columnLayoutSelected: boolean = false;
+  errorLayout: boolean = false;
+  autoLayout() {
+    this.errorLayout = false;
+    if (!this.dashboard || !this.dashboard.length || this.dashboard.length < 3) {return; }// Error handling.
+    // if (!this.columnLayout && !this.rowLayout) {return; }// Cannot Layout bad layouts.
+    if (this.dashboard.length === 3) { // Single Component. Size it fully.
+      this.dashboard[2].x = 0;
+      this.dashboard[2].y = this.headerHeight;
+      this.dashboard[2].cols = this.options.maxCols;
+      this.dashboard[2].rows = this.options.maxRows - this.headerHeight - this.footerHeight;
+      return;
+    }
+    const initialGroup = new Group();
+    initialGroup.groupType = !this.columnLayoutSelected ? "column" : "row";
+    initialGroup.subGroups = new Array<Group>();
+    for (let index = 2; index < this.dashboard.length; index++) {
+      const item = this.dashboard[index];
+      const element:Group = {
+        item: item,
+        groupType: null,
+        subGroups: [],
+        starting:  (initialGroup.groupType === "row")? item.x             : item.y,
+        length:    (initialGroup.groupType === "row")? item.cols          : item.rows,
+        ending:    (initialGroup.groupType === "row")? item.x + item.cols : item.y + item.rows
+      };
+      initialGroup.subGroups.push(element);
+    }
+    try {
+      let subGroups = this.combineSubGroupsAndCreateOppositeType(initialGroup);
+      if(subGroups !== null) {
+        initialGroup.subGroups = subGroups;
+        for (let index = 0; index < initialGroup.subGroups.length; index++) {
+          subGroups = null;
+          const subgroup = initialGroup.subGroups[index];
+          subGroups = this.combineSubGroupsAndCreateOppositeType(subgroup);
+          if (subGroups !== null) {
+            if(isArray(subGroups)) {
+              subgroup.subGroups = subGroups;
+            }
+          }
+        }
+      }
+      this.printGroup(initialGroup);      
+    } catch (error) {
+      this.errorLayout = true;
+      return;
+    }
+  }
+
+  printGroup(group: Group) {
+    if(group.hasOwnProperty("item") && group.item !== null) {
+      console.log("Item:");
+      console.log("x       :" + group.item.x    + ", y   : " + group.item.y   );
+      console.log("Columns :" + group.item.cols + ", Rows: " + group.item.rows);
+      return;
+    }
+    if (!isUndefined(group.starting)) {
+      console.log("Group Of : " + group.groupType);
+      console.log("Start    : " + group.starting);
+      console.log("Length   : " + group.length  );
+      console.log("Ending   : " + group.ending  );
+    }
+    if (group.subGroups.length === 0) {return;}
+    for (let index = 0; index < group.subGroups.length; index++) {
+      const element = group.subGroups[index];
+      // console.log(element);
+      if (! isUndefined(element)) {
+        this.printGroup(element);
+      }
+    }
+  }
+
+  combineSubGroupsAndCreateOppositeType(group: Group) {
+    if(isUndefined( group.subGroups) || !isArray( group.subGroups) || group.groupType === null ) {return null; }// Error hangling. Nothing to do. If item is set, then i tis not a group. Never set the item property in this logic.
+    // if(group.subGroups.length < 3) {return null;} // No need to group 2 items.
+    let newSubgroups = new Array<Group>();
+    for (let index = 0; index < group.subGroups.length; index++) {
+      const itemGroup = group.subGroups[index];
+      if (isUndefined(itemGroup)) {break;}
+      let found = false;
+      for (let index2 = 0; index2 < newSubgroups.length; index2++) {
+        const groupToCompare = newSubgroups[index2];
+        if (itemGroup.starting >=  groupToCompare.starting && itemGroup.ending <= groupToCompare.ending) { found = true;} // group found is larger than item.
+        else if (itemGroup.starting <=  groupToCompare.starting && itemGroup.ending >= groupToCompare.ending) { //Group found is smaller than item.
+          found = true;
+          groupToCompare.starting = itemGroup.starting;
+          groupToCompare.ending = itemGroup.ending;
+          groupToCompare.length = itemGroup.length;
+        }
+        if (found) {
+          groupToCompare.subGroups.push(itemGroup);
+          break;
+        }
+      }
+      if(!found) {
+        const newSubGroup: Group = {
+          item: null,
+          groupType: (group.groupType === "column"? "row" : "column"),
+          subGroups: [itemGroup],
+          starting: itemGroup.starting,
+          length: itemGroup.length,
+          ending: itemGroup.ending  
+        };
+        newSubgroups.push(newSubGroup);
+      }
+    }
+    //Retrun if only one sub group found.
+    if (newSubgroups.length === 1) {return null;}
+    if (newSubgroups.length === group.subGroups.length) {return newSubgroups;}
+    // Check for issues in subgroups.
+    let issueFound = false;
+    for (let index1 = 0; index1 < newSubgroups.length - 1; index1++) {
+      const element1 = newSubgroups[index1];
+      for (let index2 = index1+1; index2 < newSubgroups.length; index2++) {
+        const element2 = newSubgroups[index2];
+        if (element1.starting < element2.starting && element1.ending > element2.starting) {issueFound = true; break;}
+        if (element1.starting > element2.starting && element1.starting < element2.ending) {issueFound = true; break;}
+      }
+      if(issueFound) {break; }  
+    }
+    if(issueFound) { throw "Error"; }
+    else {
+      for (const newSubGroup of newSubgroups) {
+        for(const itemGroup of newSubGroup.subGroups) {
+          itemGroup.starting  = (newSubGroup.groupType === "row")? itemGroup.item.x                       : itemGroup.item.y;
+          itemGroup.length    = (newSubGroup.groupType === "row")? itemGroup.item.cols                    : itemGroup.item.rows;
+          itemGroup.ending    = (newSubGroup.groupType === "row")? itemGroup.item.x + itemGroup.item.cols : itemGroup.item.y + itemGroup.item.rows;
+        }
+      }
+      return newSubgroups; 
+    }
+  }
+
+  checkLayout(){
+    // console.log("Came to check layout");
+    this.dashboard.length === 3? this.singleComponent = true : this.singleComponent = false;
+    this.columnLayoutCheck();
+    this.rowLayoutCheck();
+    if (this.columnLayout && !this.rowLayout) {this.columnLayoutSelected = true; }
+    if (!this.columnLayout && this.rowLayout) {this.columnLayoutSelected = false; }
+    if (this.singleComponent || (!this.columnLayout && !this.rowLayout)) {this.resetColor(); }
+    else if (this.columnLayout && !this.rowLayout) {this.columnColor(); }
+    else if (!this.columnLayout && this.rowLayout) {this.rowColor(); }
+    else if (this.columnLayoutSelected) {this.columnColor(); }
+    else  {this.rowColor(); }
+  }
+  rowColor() {
+    let rows = {};
+    //organize widgets into columns based on starting x positions.
+    if (this.dashboard.length <= 3) {return; }
+    for (let index = 2; index < this.dashboard.length; index++) {
+      const item = this.dashboard[index];
+      if (rows.hasOwnProperty(item.y) && isArray(rows[item.y])) {rows[item.y].push(item); }
+      else {rows[item.y] = [item]; }
+    }
+    let keys = Object.keys(rows);
+    keys = keys.sort(this.numberCompare);
+    for (let index = 0; index < keys.length; index++) {
+      const key = keys[index];
+      const color1='#DDDDDD';
+      const color2='#FFFFFF';
+      for (let index2 = 0; index2 < rows[key].length; index2++) {
+        const item = rows[key][index2];
+        if (index % 2 === 0) {
+          item.backgroundColor = color1;
+        } else {
+          item.backgroundColor = color2;
+        }
+        // console.log(item.x, item.y);
+      }      
+    }
+
+  }
+  numberCompare(a: any, b: any) {
+    let result = 0;
+    if (+a < +b) result = -1;
+    if (+a > +b) result = +1;
+    return result;
+  }
+  columnColor() {
+    let columns = {};
+    //organize widgets into columns based on starting x positions.
+    if (this.dashboard.length <= 3) {return; }
+    for (let index = 2; index < this.dashboard.length; index++) {
+      const item = this.dashboard[index];
+      if (columns.hasOwnProperty(item.x) && isArray(columns[item.x])) {columns[item.x].push(item); }
+      else {columns[item.x] = [item]; }
+    }
+    let keys = Object.keys(columns);
+    keys = keys.sort();
+    for (let index = 0; index < keys.length; index++) {
+      const key = keys[index];
+      const color1='#DDDDDD';
+      const color2='#FFFFFF';
+      for (let index2 = 0; index2 < columns[key].length; index2++) {
+        const item = columns[key][index2];
+        if (index % 2 === 0) {
+          item.backgroundColor = color1;
+        } else {
+          item.backgroundColor = color2;
+        }
+        console.log(item.x, item.y);
+      }
+    }
+  }
+
+  resetColor(){
+    for (let index = 0; index < this.dashboard.length; index++) {
+      const item = this.dashboard[index];
+      item.backgroundColor = '#FFFFFF';
+    }
+  }
+  changeLayout() {
+    this.columnLayoutSelected = !this.columnLayoutSelected;
+  }
+
+  columnLayoutCheck() {
+    this.columnLayout = true;
+    let columns = {};
+    //organize widgets into columns based on starting x positions.
+    if (this.dashboard.length <= 2) {return; }
+    for (let index = 2; index < this.dashboard.length; index++) {
+      const item = this.dashboard[index];
+      for (let index2 = 2; index2 < this.dashboard.length; index2++) {
+        const item2 = this.dashboard[index2];
+        if (item.x !== item2.x && item.x < item2.x && ((item.x + item.cols) > item2.x)) {
+          this.columnLayout = false;
+          return;
+        }
+      }
+      if (columns.hasOwnProperty(item.x) && isArray(columns[item.x])) {columns[item.x].push(item); }
+      else {columns[item.x] = [item]; }
+    }
+    for (const key in columns) {
+      if (columns.hasOwnProperty(key)) {
+        const column = columns[key];
+        if (isArray(column) && column.length !==0 ) {
+          const width = column[0].cols;
+          for (let index = 0; index < column.length; index++) {
+            const item = column[index];
+            if (item.cols !== width) {
+              this.columnLayout = false;
+              return;
+            }
+          }
+        }
+      }
+    }
+    // console.log("Is this Column Layout? " + this.columnLayout);
+  }
+
+  rowLayoutCheck() {
+    this.rowLayout = true;
+    let rows = {};
+    //organize widgets into columns based on starting x positions.
+    if (this.dashboard.length <= 2) {return; }
+    for (let index = 2; index < this.dashboard.length; index++) {
+      const item = this.dashboard[index];
+      for (let index2 = 2; index2 < this.dashboard.length; index2++) {
+        const item2 = this.dashboard[index2];
+        if (item.y !== item2.y && item.y < item2.y && ((item.y + item.rows) > item2.y)) {
+          this.rowLayout = false;
+          return;
+        }
+      }
+      if (rows.hasOwnProperty(item.y) && isArray(rows[item.y])) {rows[item.y].push(item); }
+      else {rows[item.y] = [item]; }
+    }
+    for (const key in rows) {
+      if (rows.hasOwnProperty(key)) {
+        const row = rows[key];
+        if (isArray(row) && row.length !==0 ) {
+          const height = row[0].rows;
+          for (let index = 0; index < row.length; index++) {
+            const item = row[index];
+            if (item.rows !== height) {
+              this.rowLayout = false;
+              break;
+            }
+          }
+        }
+      }
+    }
+    // console.log("Is this Row Layout? " + this.rowLayout);
+  }
 
   static eventStart(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent) {
     console.info('eventStart', item, itemComponent, event);
@@ -64,7 +365,7 @@ export class DragGridComponent implements OnInit {
         ignoreContentClass: 'gridster-item-content',
         ignoreContent: false,
         dragHandleClass: 'drag-handler',
-        stop: (item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent) => {this.resizeEvent.emit(item);},
+        stop: (item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent) => {this.resizeEvent.emit(item);setTimeout(this.checkLayout.bind(this), 1000);},
         start: DragGridComponent.eventStart,
         dropOverItems: false,
         dropOverItemsCallback: DragGridComponent.overlapEvent,
@@ -76,14 +377,16 @@ export class DragGridComponent implements OnInit {
         // update DB with new size
         // send the update to widgets
         this.resizeEvent.emit(item);
+        setTimeout(this.checkLayout.bind(this), 1000);
       },
+      itemRemovedCallback: (item) => {setTimeout(this.checkLayout.bind(this), 1000); },
       minCols: 12,
       maxCols: 12,
-      minRows: 30,
-      maxRows: 30,
+      minRows: 31,
+      maxRows: 31,
       maxItemCols: 12,
       minItemCols: 1,
-      maxItemRows: 30,
+      maxItemRows: 31,
       minItemRows: 1,
       maxItemArea: 300,
       minItemArea: 1,
@@ -100,11 +403,13 @@ export class DragGridComponent implements OnInit {
       {cols: 8, rows: 11, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table Component', type: GraphTableComponent, edit: true},
       {cols: 12, rows: 10, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Component', type: AccountDetailComponent, edit: true},
       {cols: 12, rows: 10, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
+      {cols: 6, rows: 12, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph Component', type: GraphComponent, edit: true},
     ];
     this.dashboard = [
       {cols: 12, rows: 4, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderComponent, edit: true},
-      {cols: 12, rows: 3, y: 27, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false, type: FooterComponent, edit: false},
-      {cols: 12, rows: 23, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
+      {cols: 12, rows: 3, y: 28, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Footer', delete: false, type: FooterComponent, edit: false},
+      {cols: 6, rows: 12, y:16, x: 6, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings Component', type: HoldingsComponent, edit: true},
+      {cols: 6, rows: 12, y: 3, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph Component', type: GraphComponent, edit: true},
     ];
     this.customComponent = {
       x: 0,

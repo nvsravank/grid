@@ -28,6 +28,8 @@
     "animate.css": "^4.1.0",
     "chart.js": "^2.5.0",
     "hammerjs": "^2.0.8",
+    "highcharts": "^8.1.0",
+    "highcharts-angular": "^2.4.0",
     "ng-dynamic-component": "^6.1.0",
     "ngx-color-picker": "^9.1.0",
     "rxjs": "~6.5.4",

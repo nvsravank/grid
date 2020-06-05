@@ -15,6 +15,7 @@ import {MatMenuModule} from "@angular/material/menu";
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { NavbarModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +30,10 @@ import { FooterComponent } from './footer/footer.component';
 import { AccountDetailComponent } from './account-detail/account-detail.component';
 import { HoldingsComponent } from './holdings/holdings.component';
 import { HoldingsCustomizationComponent } from './holdings/holdings-customization.component';
+import { GraphComponent } from './graph/graph.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { ColumnGridComponent } from './column-grid/column-grid.component';
+import { RowGridComponent } from './row-grid/row-grid.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +46,9 @@ import { HoldingsCustomizationComponent } from './holdings/holdings-customizatio
     AccountDetailComponent,
     HoldingsComponent,
     HoldingsCustomizationComponent,
+    GraphComponent,
+    ColumnGridComponent,
+    RowGridComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,10 +65,14 @@ import { HoldingsCustomizationComponent } from './holdings/holdings-customizatio
     MatListModule,
     MatMenuModule,
     MDBBootstrapModule.forRoot(),
+    NavbarModule,
+    WavesModule,
+    ButtonsModule,
     GridsterModule,
     ColorPickerModule,
-    DynamicModule.withComponents([GraphTableComponent, HeaderComponent, FooterComponent, AccountDetailComponent, HoldingsComponent]),
+    DynamicModule.withComponents([GraphTableComponent, HeaderComponent, FooterComponent, AccountDetailComponent, HoldingsComponent, GraphComponent]),
     DragDropModule,
+    HighchartsChartModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
