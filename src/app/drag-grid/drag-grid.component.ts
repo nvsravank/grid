@@ -104,6 +104,7 @@ export class DragGridComponent implements OnInit {
         }
       }
       this.printGroup(initialGroup);
+      this.autoSetItemSize(initialGroup.subGroups, initialGroup, null);
     } catch (error) {
       this.errorLayout = true;
       return;
@@ -133,6 +134,37 @@ export class DragGridComponent implements OnInit {
     }
   }
 
+  autoSetItemSize(subGroup: Group[], parentGroup: Group, grandParentGroup: Group) {
+    for (const group of subGroup) {
+      if(group.hasOwnProperty("item") && group.item !== null) {
+        if(grandParentGroup === null) {
+          if (parentGroup.groupType === "column") {
+            group.item.x = 0;
+            group.item.cols = 12;
+          }
+          if (parentGroup.groupType === "row") {
+            group.item.y = this.headerHeight;
+            group.item.rows = this.options.maxRows - this.headerHeight - this.footerHeight;
+          }
+        } else {
+          if (parentGroup.groupType === "column") {
+            group.item.x = grandParentGroup.starting? grandParentGroup.starting:0;
+            group.item.cols = grandParentGroup.length? grandParentGroup.length:12;
+          }
+          if (parentGroup.groupType === "row") {
+            group.item.y = grandParentGroup.starting? grandParentGroup.starting:this.headerHeight;
+            group.item.rows = grandParentGroup.length? grandParentGroup.length:this.options.maxRows - this.headerHeight - this.footerHeight;
+          }
+        }
+      }
+      else {
+        this.autoSetItemSize(group.subGroups, group, parentGroup);
+      }       
+    }
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
+  }
 
   combineSubGroupsAndCreateOppositeType(group: Group) {
     if(isUndefined( group.subGroups) || !isArray( group.subGroups) || group.groupType === null ) {return null; }// Error hangling. Nothing to do. If item is set, then i tis not a group. Never set the item property in this logic.
@@ -207,6 +239,9 @@ export class DragGridComponent implements OnInit {
     else if (!this.columnLayout && this.rowLayout) {this.rowColor(); }
     else if (this.columnLayoutSelected) {this.columnColor(); }
     else  {this.rowColor(); }
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
   rowColor() {
     let rows = {};
@@ -263,7 +298,7 @@ export class DragGridComponent implements OnInit {
         } else {
           item.backgroundColor = color2;
         }
-        console.log(item.x, item.y);
+        // console.log(item.x, item.y);
       }
     }
   }
@@ -276,6 +311,8 @@ export class DragGridComponent implements OnInit {
   }
   changeLayout() {
     this.columnLayoutSelected = !this.columnLayoutSelected;
+    if (this.columnLayoutSelected) {this.columnColor(); }
+    else  {this.rowColor(); }
   }
 
   columnLayoutCheck() {

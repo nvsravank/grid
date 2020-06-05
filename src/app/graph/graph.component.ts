@@ -147,7 +147,11 @@ export class GraphComponent implements OnInit, OnDestroy {
   setupHighChartsOptions() {
     this.options = {
       chart: {
-          zoomType: 'x'
+          zoomType: 'x',
+          width: this.componentWidth,
+          height: this.componentHeight,
+          marginLeft: 35,
+          marginRight: 5,
       },
       title: {
           text: ''
@@ -165,6 +169,9 @@ export class GraphComponent implements OnInit, OnDestroy {
       },
       legend: {
           enabled: true
+      },
+      credits: {
+        enabled: false
       },
       plotOptions: {
           area: {
@@ -214,8 +221,10 @@ export class GraphComponent implements OnInit, OnDestroy {
       this.tooSmall = true;
       return;
     }
-    this.componentWidth = this.widget.cols * 90;
-    this.componentHeight = this.widget.rows * 25;
+    this.componentWidth = (this.widget.cols * 85) + 25;
+    this.componentHeight = (this.widget.rows * 27) - 35;
+    this.options.chart.width = this.componentWidth-25;
+    this.options.chart.height = this.componentHeight;
     this.updateFlag = true;
   }
   ngOnDestroy() {
