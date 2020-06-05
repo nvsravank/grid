@@ -67,7 +67,7 @@ export class DragGridComponent implements OnInit {
       return;
     }
     const initialGroup = new Group();
-    initialGroup.groupType = !this.columnLayoutSelected ? "column" : "row";
+    initialGroup.groupType = this.columnLayoutSelected ? "column" : "row";
     initialGroup.subGroups = new Array<Group>();
     for (let index = 2; index < this.dashboard.length; index++) {
       const item = this.dashboard[index];
@@ -90,13 +90,20 @@ export class DragGridComponent implements OnInit {
           const subgroup = initialGroup.subGroups[index];
           subGroups = this.combineSubGroupsAndCreateOppositeType(subgroup);
           if (subGroups !== null) {
-            if(isArray(subGroups)) {
-              subgroup.subGroups = subGroups;
+            subgroup.subGroups = subGroups;
+            for (let index2 = 0; index2 < subgroup.subGroups.length; index2++) {
+              subGroups = null;
+              const subgroup2 = subgroup.subGroups[index2];
+              subGroups = this.combineSubGroupsAndCreateOppositeType(subgroup2);
+              if (subGroups !== null) {
+                subgroup2.subGroups = subGroups;
+              }
             }
+    
           }
         }
       }
-      this.printGroup(initialGroup);      
+      this.printGroup(initialGroup);
     } catch (error) {
       this.errorLayout = true;
       return;
@@ -125,6 +132,7 @@ export class DragGridComponent implements OnInit {
       }
     }
   }
+
 
   combineSubGroupsAndCreateOppositeType(group: Group) {
     if(isUndefined( group.subGroups) || !isArray( group.subGroups) || group.groupType === null ) {return null; }// Error hangling. Nothing to do. If item is set, then i tis not a group. Never set the item property in this logic.

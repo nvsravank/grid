@@ -220,16 +220,7 @@
     </div>
     <div class="col-auto mr-2" [style.min-width.px]="gridWidth" [style.min-height.px]="gridHeight" [style.max-width.px]="gridWidth" [style.max-height.px]="gridHeight">
       <div class="layout mb-2">
-        <div *ngIf="singleComponent">
-          <img class="layoutImage" src="/assets/single-component.png"/> There is only one component in the grid. Ensure it is sized to the complete width.
-        </div>
-        <div *ngIf="!singleComponent && columnLayout && !rowLayout">
-          <img class="layoutImage" src="/assets/column-layout.png"/> The grid has been identified as using Column Layout. This layout will place each item in a column just below the other based on the vertical height based on the content.
-        </div>
-        <div *ngIf="!singleComponent && !columnLayout && rowLayout">
-          <img class="layoutImage" src="/assets/row-layout.png"/> The grid has been identified as using Row Layout. This layout will place all items in a row together first before the next row is laid out.
-        </div>
-        <div *ngIf="!singleComponent && columnLayout && rowLayout">
+        <div *ngIf="!errorLayout">
           <button (click)="changeLayout()">Switch Layout</button>
           <div *ngIf="columnLayoutSelected">
             <img class="layoutImage" src="/assets/column-layout.png"/> You have selected to use Column Layout. This layout will place each item in a column just below the other based on the vertical height based on the content.
@@ -237,10 +228,10 @@
           <div *ngIf="!columnLayoutSelected">
             <img class="layoutImage" src="/assets/row-layout.png"/> You have selected to use Row Layout. This layout will place all items in a row together first before the next row is laid out.
           </div>
-          </div>
-      </div>
-      <div *ngIf="!singleComponent && !columnLayout && !rowLayout">
-        Error in layout. The grid cannot be Column or Row Layout. This layout cannot be saved as is.
+        </div>
+        <div *ngIf="errorLayout">
+          Error in layout. The grid cannot be Column or Row Layout. This layout cannot be saved as is.
+        </div>  
       </div>
       <gridster [options]="options" [ngStyle]="{'background-color': gridBackgroundColor}" class="gridsterstyles">
         <gridster-item [item]="item" *ngFor="let item of dashboard" [ngStyle]="{'background-color': item.backgroundColor}">
